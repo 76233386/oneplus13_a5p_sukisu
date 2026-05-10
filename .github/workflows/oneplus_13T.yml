@@ -132,11 +132,11 @@ jobs:
            cp -r ../SukiSU_patch/other/zram/lz4k/lib/* ./common/lib
            cp -r ../SukiSU_patch/other/zram/lz4k/crypto/* ./common/crypto
            cp -r ../SukiSU_patch/other/zram/lz4k_oplus ./common/lib/
-
-           sed -i '/#include <linux\/cpufreq_times.h>/a #include <linux\/dma-buf.h>' fs/proc/base.c
            
            # Apply patches
            cd ./common
+           
+           sed -i '/#include <linux\/cpufreq_times.h>/a #include <linux\/dma-buf.h>' fs/proc/base.c
 
            patch -p1 < 50_add_susfs_in_gki-android15-6.6.patch || true
            # cp ../../SukiSU_patch/hooks/scope_min_manual_hooks_v1.6.patch ./
