@@ -115,12 +115,6 @@ jobs:
              # }
              # { print }
          # ' kernel/Kbuild > kernel/Kbuild.tmp && mv kernel/Kbuild.tmp kernel/Kbuild
-         # awk -v old='KSU_VERSION := $(shell expr 40000 + $(KSU_GITHUB_VERSION_COMMIT) - 2815)' -v new='KSU_VERSION := $(shell expr 10000 + $(KSU_GITHUB_VERSION_COMMIT) + 700)' '
-             # index($0, old) {
-                 # $0 = substr($0, 1, index($0, old)-1) new substr($0, index($0, old) + length(old))
-             # }
-             # { print }
-         # ' kernel/Makefile > kernel/Makefile.tmp && mv kernel/Makefile.tmp kernel/Makefile
 
       - name: Set up susfs
         if: steps.check.outputs.should_cancel != 'yes'
@@ -138,6 +132,9 @@ jobs:
            cp -r ../SukiSU_patch/other/zram/lz4k/lib/* ./common/lib
            cp -r ../SukiSU_patch/other/zram/lz4k/crypto/* ./common/crypto
            cp -r ../SukiSU_patch/other/zram/lz4k_oplus ./common/lib/
+
+           sed -i '/#include <linux\/cpufreq_times.h>/a #include <linux\/dma-buf.h>' fs/proc/base.c
+           
            # Apply patches
            cd ./common
 
