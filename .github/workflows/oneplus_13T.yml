@@ -362,15 +362,15 @@ jobs:
           BUILD_ID=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
           "https://api.github.com/repos/$REPO/actions/workflows/$FILENAME/runs?status=success" | \
           jq -r '.workflow_runs[0].id')
-          echo ＂BUILD_ID=$BUILD_ID＂
+          echo "BUILD_ID=$BUILD_ID"
           # 获取该构建的 Artifacts
           ARTIFACTS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/$REPO/actions/runs/$BUILD_ID/artifacts")
-          echo ＂ARTIFACTS=$ARTIFACTS＂
+          echo "ARTIFACTS=$ARTIFACTS"
           # 获取 Manager 文件的下载链接
           
           
-          DOWNLOAD_URL=$(echo "$ARTIFACTS" | jq -r '.artifacts[] | select(.name == "Manager") | .archive_download_url')
+          DOWNLOAD_URL=$(echo "$ARTIFACTS" | jq -r '.artifacts[] | select(.name | ascii_downcase == "manager") | .archive_download_url')
           echo $DOWNLOAD_URL
 
           # 下载 Manager 文件
